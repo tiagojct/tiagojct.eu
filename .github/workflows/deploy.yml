@@ -1,53 +1,33 @@
-name: Build & Deploy Quarto site
+name: Deploy Quarto Site
 
 on:
   push:
-    branches: ["main"]
-
-permissions:
-  contents: read
+    branches: [main]
 
 jobs:
-  build-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
+      
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-
-      - name: Render site
+      
+      - name: Render
         uses: quarto-dev/quarto-actions/render@v2
-        with:
-          path: .
-
-      - name: Deploy via SFTP (simple mirror upload)
+      
+      - name: Deploy via SFTP
         env:
           HOST: ${{ secrets.SFTP_HOST }}
           USER: ${{ secrets.SFTP_USER }}
           PASS: ${{ secrets.SFTP_PASS }}
-          PORT: ${{ secrets.SFTP_PORT }}
+          PORT: ${{ secrets.SFTP_PORT || 22 }}
           TARGET: ${{ secrets.SFTP_TARGET }}
         run: |
-          # Verify build output exists
-          test -d _site || { echo "_site/ does not exist"; exit 1; }
-
-          # Install lftp
-          sudo apt-get update -qq
           sudo apt-get install -y lftp
-
-          # Default port to 22 if not set
-          PORT="${PORT:-22}"
-
-          echo "Uploading _site/ to sftp://${HOST}:${PORT}/${TARGET}"
-
-          # Mirror local _site to remote TARGET (reverse mirror with delete for exact sync)
-          lftp -u "${USER}","${PASS}" -p "${PORT}" sftp://${HOST} <<EOF
+          lftp -u "$USER","$PASS" -p "$PORT" sftp://$HOST <<EOF
           set sftp:auto-confirm yes
-          mirror -R --delete --verbose _site ${TARGET}
+          mirror -R --delete --verbose _site $TARGET
           bye
-EOF
-
-          echo "Deployment completed successfully"
+          EOF
