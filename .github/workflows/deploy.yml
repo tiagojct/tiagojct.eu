@@ -22,75 +22,31 @@ jobs:
         uses: quarto-dev/quarto-actions/render@v2
         with:
           path: .
+- name: Deploy via SFTP (simple mirror upload)
+  env:
+    HOST: ${{ secrets.SFTP_HOST }}
+    USER: ${{ secrets.SFTP_USER }}
+    PASS: ${{ secrets.SFTP_PASS }}
+    PORT: ${{ secrets.SFTP_PORT }}
+    TARGET: ${{ secrets.SFTP_TARGET }}
+  run: |
+    # Verify build output exists
+    test -d _site || { echo "_site/ does not exist"; exit 1; }
 
-      - name: Backup and deploy via lftp (SFTP-only server)
-        env:
-          HOST: ${{ secrets.SFTP_HOST }}
-          USER: ${{ secrets.SFTP_USER }}
-          PASS: ${{ secrets.SFTP_PASS }}
-          PORT: ${{ secrets.SFTP_PORT }}
-          TARGET: ${{ secrets.SFTP_TARGET }}
-        run: |
-          set -euo pipefail
+    # Install lftp
+    sudo apt-get update -qq
+    sudo apt-get install -y lftp
 
-          # Verify build output
-          test -d _site || (echo "_site/ não existe. O render falhou ou o output-dir não é _site." && exit 1)
+    # Default port to 22 if not set
+    PORT="${PORT:-22}"
 
-          sudo apt-get update -y
-          sudo apt-get install -y lftp tar
+    echo "Uploading _site/ to sftp://${HOST}:${PORT}/${TARGET}"
 
-          # Default port to 22 if not set
-          PORT="${PORT:-22}"
+    # Mirror local _site to remote TARGET (reverse mirror with delete for exact sync)
+    lftp -u "${USER}","${PASS}" -p "${PORT}" sftp://${HOST} <<EOF
+    set sftp:auto-confirm yes
+    mirror -R --delete --verbose _site ${TARGET}
+    bye
+EOF
 
-          TIMESTAMP=$(date -u +"%Y%m%d%H%M%S")
-          WORKDIR="$(pwd)"
-          BACKUP_LOCAL_DIR="${WORKDIR}/remote_backup_${TIMESTAMP}"
-          BACKUP_TAR="${WORKDIR}/remote_backup_${TIMESTAMP}.tar.gz"
-
-          mkdir -p "$BACKUP_LOCAL_DIR"
-
-          echo "Starting remote backup of sftp://${HOST}:${PORT}/${TARGET} into ${BACKUP_LOCAL_DIR}"
-
-          # Mirror remote TARGET directory into a local backup folder (downloads remote files)
-          # Note: leading slash handling depends on server; we try both relative and absolute fallback.
-          set +e
-          lftp -u "${USER}","${PASS}" -p "${PORT}" sftp://${HOST} -e "set sftp:auto-confirm yes; set net:max-retries 2; set net:reconnect-interval-base 5; mirror --verbose --parallel=2 --continue --only-newer /${TARGET} ${BACKUP_LOCAL_DIR}; bye"
-          LFTP_EXIT=$?
-          if [ $LFTP_EXIT -ne 0 ]; then
-            echo "First mirror attempt (absolute path) failed (exit $LFTP_EXIT). Trying without leading slash."
-            lftp -u "${USER}","${PASS}" -p "${PORT}" sftp://${HOST} -e "set sftp:auto-confirm yes; mirror --verbose --parallel=2 --continue --only-newer ${TARGET} ${BACKUP_LOCAL_DIR}; bye"
-            LFTP_EXIT2=$?
-            if [ $LFTP_EXIT2 -ne 0 ]; then
-              echo "Warning: remote backup mirror failed (exit $LFTP_EXIT2). Proceeding without remote backup. Ensure you have off-site backups if necessary."
-            fi
-          fi
-          set -e
-
-          # Package the backup (if any files were downloaded)
-          if [ -d "$BACKUP_LOCAL_DIR" ] && [ "$(ls -A "$BACKUP_LOCAL_DIR" 2>/dev/null || true)" ]; then
-            tar -czf "$BACKUP_TAR" -C "$BACKUP_LOCAL_DIR" .
-            echo "Remote backup saved to $BACKUP_TAR"
-            # Optionally upload the backup tar to a safe remote backup location or store as artifact in actions
-          else
-            echo "No remote files were downloaded into $BACKUP_LOCAL_DIR; skipping tar creation."
-          fi
-
-          echo "Uploading _site/ to sftp://${HOST}:${PORT}/${TARGET} using lftp mirror (reverse)"
-
-          # Use lftp to mirror local _site into remote TARGET; --delete ensures mirror behavior
-          # Try absolute path first, fall back to relative
-          set +e
-          lftp -u "${USER}","${PASS}" -p "${PORT}" sftp://${HOST} -e "set sftp:auto-confirm yes; set net:max-retries 2; set net:reconnect-interval-base 5; mirror -R --delete --verbose --parallel=2 _site /${TARGET}; bye"
-          UP_EXIT=$?
-          if [ $UP_EXIT -ne 0 ]; then
-            echo "First upload attempt failed (exit $UP_EXIT). Retrying without leading slash."
-            lftp -u "${USER}","${PASS}" -p "${PORT}" sftp://${HOST} -e "set sftp:auto-confirm yes; mirror -R --delete --verbose --parallel=2 _site ${TARGET}; bye"
-            UP_EXIT2=$?
-            if [ $UP_EXIT2 -ne 0 ]; then
-              echo "Upload failed (exit $UP_EXIT2). Exiting with failure."
-              exit $UP_EXIT2
-            fi
-          fi
-          set -e
-
-          echo "Deployment via lftp completed successfully. Remote backup (if created) is at: ${BACKUP_TAR:-<none>}"
+    echo "Deployment completed successfully"
