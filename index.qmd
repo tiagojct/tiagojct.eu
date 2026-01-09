@@ -17,7 +17,7 @@ I'm slowly (re)building this website. Some things are not done and some might br
 
 :::
 
-::: {.g-col-12 .g-col-md-3 .g-start-md-11 .order-1 .order-md-2}
+::: {.g-col-12 .g-col-md-4 .g-start-md-10 .order-1 .order-md-2}
 ![](tj-round-bw.png){width=100% fig-align="right"}
 
 :::
