@@ -23,31 +23,33 @@ jobs:
         with:
           path: .
 
-      - name: Deploy _site/ via OpenSSH sftp (password, sftp-only server)
-        env:
-          HOST: ${{ secrets.SFTP_HOST }}
-          USER: ${{ secrets.SFTP_USER }}
-          PASS: ${{ secrets.SFTP_PASS }}
-          PORT: ${{ secrets.SFTP_PORT }}
-          TARGET: ${{ secrets.SFTP_TARGET }} # "www"
-        run: |
-          test -d _site || (echo "_site/ não existe. O render falhou ou o output-dir não é _site." && exit 1)
+      - name: Backup remote target via SSH (move target to timestamped backup)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          port: ${{ secrets.SFTP_PORT }}
+          script: |
+            set -e
+            TARGET_DIR="${{ secrets.SFTP_TARGET }}"
+            TIMESTAMP="$(date +'%Y%m%d-%H%M%S')"
+            BACKUP_NAME="${TARGET_DIR}_backup_${TIMESTAMP}"
+            # Ensure the target parent exists and then move the target to a backup name if it exists
+            if ssh -oBatchMode=yes -oStrictHostKeyChecking=no -p "${{ secrets.SFTP_PORT }}" "${{ secrets.SFTP_USER }}"@"${{ secrets.SFTP_HOST }}" "test -d \"${TARGET_DIR}\""; then
+              echo "Backing up remote ${TARGET_DIR} -> ${BACKUP_NAME}"
+              ssh -oBatchMode=no -oStrictHostKeyChecking=no -p "${{ secrets.SFTP_PORT }}" "${{ secrets.SFTP_USER }}"@"${{ secrets.SFTP_HOST }}" "mv \"${TARGET_DIR}\" \"${BACKUP_NAME}\" || true && mkdir -p \"${TARGET_DIR}\""
+            else
+              echo "Remote target ${TARGET_DIR} does not exist; creating it"
+              ssh -oBatchMode=no -oStrictHostKeyChecking=no -p "${{ secrets.SFTP_PORT }}" "${{ secrets.SFTP_USER }}"@"${{ secrets.SFTP_HOST }}" "mkdir -p \"${TARGET_DIR}\""
+            fi
 
-          sudo apt-get update
-          sudo apt-get install -y sshpass openssh-client
-
-          # Prepara comandos SFTP:
-          # 1) ir para o TARGET (www)
-          # 2) apagar tudo lá dentro (para ficar "espelho" do build)
-          # 3) enviar tudo do _site
-          cat > sftp-batch.txt <<EOF
-          cd $TARGET
-          rm -r *
-          put -r _site/*
-          bye
-          EOF
-
-          # Executa SFTP em modo batch (password via sshpass)
-          sshpass -p "$PASS" sftp -P "$PORT" \
-            -oBatchMode=no \
-            -oStrictHostKeyChecking=accept
+      - name: Upload _site/ via SCP (restore into target)
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          port: ${{ secrets.SFTP_PORT }}
+          source: "_site/*"
+          target: "${{ secrets.SFTP_TARGET }}"
