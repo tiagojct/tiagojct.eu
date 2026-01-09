@@ -23,30 +23,31 @@ jobs:
         with:
           path: .
 
-      - name: Install lftp
-        run: sudo apt-get update && sudo apt-get install -y lftp
-
-      - name: Deploy _site/ via rsync over SSH (password)
+      - name: Deploy _site/ via OpenSSH sftp (password, sftp-only server)
         env:
           HOST: ${{ secrets.SFTP_HOST }}
           USER: ${{ secrets.SFTP_USER }}
           PASS: ${{ secrets.SFTP_PASS }}
           PORT: ${{ secrets.SFTP_PORT }}
-          TARGET: ${{ secrets.SFTP_TARGET }} # usa "www"
+          TARGET: ${{ secrets.SFTP_TARGET }} # "www"
         run: |
           test -d _site || (echo "_site/ não existe. O render falhou ou o output-dir não é _site." && exit 1)
 
           sudo apt-get update
-          sudo apt-get install -y sshpass rsync openssh-client
+          sudo apt-get install -y sshpass openssh-client
 
-          # (Opcional) sanity check rápido
-          sshpass -p "$PASS" ssh -p "$PORT" \
-            -o StrictHostKeyChecking=no \
-            -o UserKnownHostsFile=/dev/null \
-            "$USER@$HOST" "ls -la / && ls -la /$TARGET"
+          # Prepara comandos SFTP:
+          # 1) ir para o TARGET (www)
+          # 2) apagar tudo lá dentro (para ficar "espelho" do build)
+          # 3) enviar tudo do _site
+          cat > sftp-batch.txt <<EOF
+          cd $TARGET
+          rm -r *
+          put -r _site/*
+          bye
+          EOF
 
-          # Deploy (espelho) — nota: usa /www porque no teu SFTP o root é /
-          sshpass -p "$PASS" rsync -az --delete \
-            -e "ssh -p $PORT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" \
-            _site/ \
-            "$USER@$HOST:/$TARGET/"
+          # Executa SFTP em modo batch (password via sshpass)
+          sshpass -p "$PASS" sftp -P "$PORT" \
+            -oBatchMode=no \
+            -oStrictHostKeyChecking=accept
