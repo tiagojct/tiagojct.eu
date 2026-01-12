@@ -1,0 +1,63 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [ "main" ]   
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render site
+        run: |
+          quarto --version
+          quarto render
+
+      - name: Install rsync & sshpass
+        run: sudo apt-get update && sudo apt-get install -y rsync sshpass
+
+      - name: Check remote home
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        run: |
+          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" 'echo "HOME=$HOME"; pwd; id'
+
+      # Ensure the target dir exists *under your HOME*
+      - name: Ensure remote dir exists
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          REMOTE_SUBDIR: ${{ secrets.REMOTE_SUBDIR }}
+        run: |
+          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "mkdir -p \"$REMOTE_SUBDIR\""
+
+      - name: Deploy via rsync (password)
+        env:
+          SRC_DIR: "_site/"                         
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          REMOTE_SUBDIR: ${{ secrets.REMOTE_SUBDIR }}
+        run: |
+          rsync -avz --delete \
+            --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r \
+            -e "sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no -p $SSH_PORT" \
+            "$SRC_DIR" "$SSH_USER@$SSH_HOST:$REMOTE_SUBDIR"
