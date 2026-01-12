@@ -2,6 +2,22 @@
 title: "tiagojct.eu"
 ---
 
-This is a Quarto website.
+::: {.grid}
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+::: {.g-col-12 .g-col-md-7 .g-start-md-1 .order-2 .order-md-1}
+
+
+I'm a Professor at the Faculty of Medicine of the University of Porto (FMUP), with academic training in Health Sciences and Digital Health. I'm the Co-Director of the Master's in Medical Informatics at FMUP and a member of RISE@Health – Health Research Network, within the thematic line on Digital Transformation, Artificial Intelligence, Data and Decision Sciences in Health.  
+
+::: {.callout-important}
+I'm slowly (re)building this website. Some things are not done and some might break without warning! 
+:::
+
+:::
+
+::: {.g-col-12 .g-col-md-3 .g-start-md-11 .order-1 .order-md-2}
+![](tj-round-bw.png){width=100% fig-align="right"}
+
+:::
+
+:::
