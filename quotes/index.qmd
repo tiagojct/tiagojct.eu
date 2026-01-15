@@ -1,0 +1,21 @@
+---
+title: "My Favorite Quotes"
+page-class: quotes-page
+listing:
+  contents: quotes.yml
+  type: grid
+  id: quotes-listing
+  sort: "author asc"
+  sort-ui: true
+  filter-ui: true
+  categories: true
+  page-size: 10
+  table-hover: false
+  fields: [title, author]
+  field-display-names:
+    title: "Quote"
+    author: "Author"
+    description: "Source"
+---
+
+Here is a collection of quotes that inspire me.

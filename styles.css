@@ -1,1 +1,65 @@
 /* css styles */
+
+/* Notes listing spacing + category pill styling */
+.quarto-listing-container-grid .listing-title {
+  margin-bottom: 0.75rem;
+}
+
+.quarto-listing-container-grid .listing-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.5rem;
+}
+
+.quarto-listing-container-grid .listing-category {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid #175327;
+  border-radius: 999px;
+  background: #fff;
+  color: #175327;
+  font-size: 0.70rem;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+
+.quarto-listing-container-grid .listing-category:hover {
+  background: #fff;
+  border-color: #175327;
+}
+
+/* Quotes page: remove card borders and use a single column */
+#listing-quotes-listing .quarto-grid-item.card {
+  border: none;
+  box-shadow: none;
+}
+
+#listing-quotes-listing .list.grid {
+  grid-template-columns: 1fr;
+}
+
+#listing-quotes-listing .card-body {
+  padding-left: 0;
+}
+
+#listing-quotes-listing .listing-title,
+#listing-quotes-listing .card-attribution {
+  margin-left: 0;
+}
+
+#listing-quotes-listing .quarto-grid-link {
+  pointer-events: none;
+  text-decoration: none;
+  color: inherit;
+  cursor: default;
+}
+
+img {
+  border-radius: 12px;
+}
+
+.intro-lede {
+  font-size: 1.35rem;
+  line-height: 1.4;
+}

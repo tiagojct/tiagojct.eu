@@ -1,0 +1,15 @@
+```{=html}
+<% for (const item of items) { %>
+<div class="quote-item">
+  <blockquote>
+    "<%= item.text %>"
+  </blockquote>
+  <div class="quote-attribution">
+    <span>— <%= item.author %></span>
+    <% if (item.source) { %>
+      <span>(<%= item.source %>)</span>
+    <% } %>
+  </div>
+</div>
+<% } %>
+```

@@ -1,0 +1,18 @@
+---
+title: "Notes"
+listing:
+  contents: "*.qmd"
+  type: grid
+  sort: "date desc"
+  sort-ui: true
+  filter-ui: true
+  table-hover: true
+  categories: true
+  fields: [image, date, title, categories]
+  field-display-names:
+    date: "Date"
+    title: "Note"
+    categories: "Tags"
+---
+
+A collection of my thoughts and ideas.

@@ -1,0 +1,26 @@
+---
+title: "Getting Started with Quarto"
+date: "2026-01-12"
+categories: [quarto, web, tutorial]
+---
+
+Quarto is a powerful tool for creating dynamic documents that combine code and narrative. In this post, I share my first impressions and some tips for getting started.
+
+## Why Quarto?
+
+Quarto makes it easy to create websites, blogs, and documents with R, Python, or other languages. The syntax is clean, and the output is beautiful.
+
+## Key Features
+
+- **Multi-language support**: Work with R, Python, Julia, and more
+- **Dynamic documents**: Mix code and markdown seamlessly
+- **Beautiful output**: Professional-looking HTML, PDF, and more
+- **Simple deployment**: Deploy to GitHub Pages or other platforms
+
+## Getting Started
+
+1. Install Quarto from [quarto.org](https://quarto.org)
+2. Create a new project with `quarto create-project`
+3. Preview with `quarto preview`
+
+That's it! You're ready to start creating.

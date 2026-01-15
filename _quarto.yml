@@ -1,21 +1,66 @@
 project:
   type: website
 
+preview: 
+  port: 5555
+  browser: true
+  watch-inputs: true
+  navigate: true
+
+render:
+  - "*.qmd"
+  - "*.md"
+
+resources:
+  - "files/**"
+  - "pgp_tj.txt"
+
+freeze: true
+
+pagetitle: "{{< meta title >}}"
+author-meta: "Tiago Jacinto"
+
 website:
-  title: "tiagojct.eu"
+  title: "Tiago Jacinto"
+  description: "Tiago Jacinto is an assistant professor at the Faculty of Medicine of University of Porto, teaching and researching digital health, medical informatics and AI in healthcare."
+  site-url: "https://tiagojct.eu"
+  repo-url: "https://github.com/tiagojct/tiagojct.eu"
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+      - href: about/index.qmd
+        text: About
+      - href: now/index.qmd
+        text: Now
+      - href: notes/index.qmd
+        text: Notes
+      - href: quotes/index.qmd
+        text: Quotes
+    right:
+      - href: https://mastodon.social/@tiagojct
+        icon: mastodon
+
+  page-footer:
+    left: |
+      <span class="faux-block">{{< fa brands creative-commons >}} {{< var years >}} Tiago Jacinto</span>
+      <span class="faux-block">All content licensed under<br>[{{< fa brands creative-commons >}} {{< fa brands creative-commons-by >}} Creative Commons CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)</span>      
+    center: |
+      <span class="faux-block">{{< fa brands orcid >}} <strong>ORCID</strong> [{{< var orcid >}}](https://orcid.org/{{< var orcid >}})</span>
+      <span class="faux-block">{{< fa key >}} [PGP public key]({{< var pgp.key >}}) &emsp; {{< fa fingerprint >}} Fingerprint:</strong><br><span class="fingerprint">{{< var pgp.fingerprint >}}</span></span>
+    right: |
+      <span class="faux-block">Made with [{{< iconify cib:visual-studio-code >}}](https://code.visualstudio.com/) and [{{< iconify simple-icons:quarto >}}](https://quarto.org/)</span>
+      <span class="faux-block">[View the source at {{< fa brands github >}} GitHub]({{< var github-url >}})</span>
+  
+  
 
 format:
   html:
     theme:
-      - litera
-      - brand
+      - files/skeletor.scss
     css: styles.css
-    toc: true
-
+    date-format: "YYYY-MM-DD"
+    include-in-header: files/header.html
+    toc: false
+    grid:
+      body-width: 900px
 
 

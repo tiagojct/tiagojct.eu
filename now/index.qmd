@@ -1,0 +1,9 @@
+---
+title: "Now"
+last-updated: "January 14, 2026"
+---
+
+*This page was last updated on {{< meta last-updated >}}.*
+
+This is a [now page](https://nownownow.com/about). Here's what I'm currently focused on:
+
