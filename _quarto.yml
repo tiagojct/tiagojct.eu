@@ -31,10 +31,10 @@ website:
         text: About
       - href: now/index.qmd
         text: Now
-      - href: notes/index.qmd
-        text: Notes
-      - href: quotes/index.qmd
-        text: Quotes
+#      - href: notes/index.qmd
+#        text: Notes
+#      - href: quotes/index.qmd
+#        text: Quotes
     right:
       - href: https://mastodon.social/@tiagojct
         icon: mastodon
