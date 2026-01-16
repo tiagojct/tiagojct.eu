@@ -1,30 +1,22 @@
 ---
 title: "Tiago Jacinto"
+page-layout: article
+toc: false
 ---
 
 ::: {.grid}
 
-::: {.g-col-12 .g-col-md-7 .g-start-md-1 .order-2 .order-md-1}
+::: {.g-col-12 .g-col-md-4 .order-1 .order-md-2}
+![](img/tj2026.jpeg){width=100%}
+:::
 
-[{{< iconify carbon:logo-github size=2em >}}](https://github.com/tgjac)
-[{{< iconify carbon:logo-linkedin size=2em >}}](https://www.linkedin.com/in/tgjac/)
-[{{< iconify carbon:logo-mastodon size=2em >}}](https://mastodon.social/@tiagojct)
+::: {.g-col-12 .g-col-md-8 .order-2 .order-md-1}
 
 ::: {.intro-lede}
-Hello! I'm Tiago, a human, dad, husband, Portuguese-made European, living in northern Portugal.  
+Assistant professor at the [Faculty of Medicine of University of Porto](https://med.up.pt), teaching and researching digital health, medical informatics, and AI in healthcare.
 :::
 
-I'm an assistant professor at the [Faculty of Medicine of University of Porto](https://med.up.pt), teaching and researching digital health, medical informatics and AI in healthcare.  
-I live with an amazing wife {{< iconify fluent-emoji-flat:woman-curly-hair-light >}}, two awesome kids {{< iconify fluent-emoji-flat:girl-light >}} {{< iconify fluent-emoji-flat:boy-medium >}} and two ok cats {{< iconify fluent-emoji-flat:cat >}} {{< iconify fluent-emoji-flat:black-cat >}}.
-
-::: {.callout-important}
-I'm slowly (re)building this website. Some things are not done and some might break without warning! 
-:::
-
-:::
-
-::: {.g-col-12 .g-col-md-5 .g-start-md-10 .order-1 .order-md-2}
-![](img/tj2026.jpeg){width=100% fig-align="right"}
+Human, dad, husband, Portuguese-made European, living in northern Portugal with an amazing wife, two awesome kids, and two ok cats.
 
 :::
 

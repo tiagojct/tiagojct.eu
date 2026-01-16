@@ -1,0 +1,27 @@
+---
+title: "AI in Medical Education"
+date: "2025-01-05"
+categories: [AI, education, medical informatics]
+description: "Exploring how artificial intelligence is transforming how we teach and learn medicine."
+image: thumbnail.png
+---
+
+## A New Era of Learning
+
+The integration of AI into medical education presents both opportunities and challenges.
+
+### Personalized Learning Paths
+
+AI can analyze student performance and adapt curriculum delivery. Students struggling with certain concepts receive additional resources, while those excelling can move ahead.
+
+### Virtual Patients
+
+Simulated patient encounters powered by large language models allow students to practice clinical reasoning in a safe environment. These systems can present rare conditions that students might not encounter during clinical rotations.
+
+### Assessment and Feedback
+
+Automated assessment tools can evaluate clinical notes, diagnostic reasoning, and even communication skills, providing immediate feedback to learners.
+
+## Ethical Considerations
+
+As we integrate these tools, we must ensure students develop critical thinking skills and don't become overly reliant on AI assistance.

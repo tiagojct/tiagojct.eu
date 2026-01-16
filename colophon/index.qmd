@@ -1,0 +1,26 @@
+---
+title: "Colophon"
+---
+
+This website is my personal corner of the internet where I share thoughts on digital health, medical informatics, and AI in healthcare.
+
+## Design
+
+The design aims for clarity and readability. Light and dark themes are based on [Flexoki](https://stephango.com/flexoki), a color scheme by Steph Ango that prioritizes comfort for extended reading.
+
+## Typography
+
+- **Body text:** [Geist](https://vercel.com/font) by Vercel
+- **Navbar, footer, and code:** [Geist Mono](https://vercel.com/font)
+
+## Technology
+
+Built with [Quarto](https://quarto.org/), an open-source scientific and technical publishing system. The source code is available on [GitHub](https://github.com/tiagojct/tiagojct.eu).
+
+## Hosting
+
+Deployed and hosted on [GitHub Pages](https://pages.github.com/).
+
+## License
+
+All content is licensed under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/) unless otherwise noted.
