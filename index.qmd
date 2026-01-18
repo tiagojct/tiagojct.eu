@@ -1,23 +1,31 @@
 ---
 title: "Tiago Jacinto"
-page-layout: article
-toc: false
+about:
+  template: solana
+  image: img/tj2026.jpeg
+  image-width: 15em
+  image-shape: rounded
+  links:
+    - icon: mastodon
+      text: Mastodon
+      href: https://mastodon.social/@tiagojct
+      aria-label: Mastodon
+    - icon: github
+      text: GitHub
+      href: https://github.com/tgjac
+      aria-label: GitHub
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/tiagojacinto/
+      aria-label: LinkedIn
+    - icon: person-badge-fill
+      text: ORCID
+      href: https://orcid.org/0000-0002-7897-1101
+      aria-label: ORCID
 ---
 
-::: {.grid}
-
-::: {.g-col-12 .g-col-md-4 .order-1 .order-md-2}
-![](img/tj2026.jpeg){width=100%}
-:::
-
-::: {.g-col-12 .g-col-md-8 .order-2 .order-md-1}
-
-::: {.intro-lede}
 Assistant professor at the [Faculty of Medicine of University of Porto](https://med.up.pt), teaching and researching digital health, medical informatics, and AI in healthcare.
-:::
 
 Human, dad, husband, Portuguese-made European, living in northern Portugal with an amazing wife, two awesome kids, and two ok cats.
 
-:::
-
-:::
+This site contains my [{{< iconify carbon:cube >}} projects](projects/index.qmd), [{{< iconify carbon:education >}} teaching](teaching/index.qmd), [{{< iconify carbon:document >}} publications](publications/index.qmd), [{{< iconify carbon:notebook >}} notes](notes/index.qmd), and [{{< iconify carbon:quotes >}} quotes](quotes/index.qmd).

@@ -1,0 +1,32 @@
+---
+title: "EHR Integration Project"
+date: "2024-09-15"
+categories: [EHR, interoperability, digital health]
+description: "Developing standards-based approaches for electronic health record interoperability across healthcare institutions."
+image: thumbnail.png
+---
+
+## Project Overview
+
+This project focuses on developing and implementing standardized approaches for electronic health record (EHR) interoperability across multiple healthcare institutions in Portugal.
+
+## Objectives
+
+- Establish FHIR-based data exchange protocols
+- Develop secure authentication mechanisms
+- Create unified patient identity management
+- Build clinical decision support integration
+
+## Current Status
+
+The project is currently in the pilot phase, with three healthcare centers participating in the initial implementation.
+
+## Partners
+
+- Faculty of Medicine, University of Porto
+- São João University Hospital Center
+- Portuguese Health IT Agency
+
+## Funding
+
+Supported by the Portuguese Foundation for Science and Technology (FCT).

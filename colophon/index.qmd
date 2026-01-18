@@ -6,12 +6,19 @@ This website is my personal corner of the internet where I share thoughts on dig
 
 ## Design
 
-The design aims for clarity and readability. Light and dark themes are based on [Flexoki](https://stephango.com/flexoki), a color scheme by Steph Ango that prioritizes comfort for extended reading.
+The design aims for clarity and readability. The color palette is inspired by warm, professional tones with deep navy, soft sage, and warm taupe creating a comfortable reading experience in both light and dark modes.
+
+## Colors
+
+- **Primary colors:** Deep Navy/Charcoal (#2C3E50), Soft Sage/Muted Teal (#7A9B9E), Warm Taupe (#C4A57B)
+- **Supporting colors:** Cream/Warm Off-White (#F5F1E8), Warm Grey-Brown (#8B7B6B)
+- **Usage:** Navy for structure and headers, Sage for links and accents, Taupe for decorative elements and hover states
 
 ## Typography
 
-- **Body text:** [Geist](https://vercel.com/font) by Vercel
-- **Navbar, footer, and code:** [Geist Mono](https://vercel.com/font)
+- **Body text:** [Literata](https://fonts.google.com/specimen/Literata) by TypeTogether
+- **Headings and navbar:** [Work Sans](https://fonts.google.com/specimen/Work+Sans) by Wei Huang
+- **Footer and code:** [Geist Mono](https://vercel.com/font) by Vercel
 
 ## Technology
 

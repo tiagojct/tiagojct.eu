@@ -1,0 +1,13 @@
+---
+title: "Publications"
+bibliography: references.bib
+nocite: '@*'
+csl: https://www.zotero.org/styles/apa
+---
+
+Selected publications in digital health, medical informatics, and AI in healthcare.
+
+## Journal Articles & Conference Proceedings
+
+::: {#refs}
+:::

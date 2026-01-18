@@ -1,63 +1,37 @@
-name: Build & Deploy
-
+name: Deploy Quarto Site to VPS
 on:
   push:
-    branches: [ "main" ]   
-  workflow_dispatch:
-
-concurrency:
-  group: deploy-${{ github.ref }}
-  cancel-in-progress: true
-
+    branches: [main] # Change to 'master' if that's your default branch
+  workflow_dispatch: # Allows manual trigger from GitHub UI
 jobs:
-  build-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup Quarto
+      - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-
-      - name: Render site
-        run: |
-          quarto --version
-          quarto render
-
-      - name: Install rsync & sshpass
-        run: sudo apt-get update && sudo apt-get install -y rsync sshpass
-
-      - name: Check remote home
+        with:
+          version: release # Or specify a version like '1.4.550'
+      - name: Render Quarto site
+        run: quarto render
+      - name: Deploy to VPS
         env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
-          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" 'echo "HOME=$HOME"; pwd; id'
+          # Setup SSH
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
 
-      # Ensure the target dir exists *under your HOME*
-      - name: Ensure remote dir exists
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-          REMOTE_SUBDIR: ${{ secrets.REMOTE_SUBDIR }}
-        run: |
-          sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "mkdir -p \"$REMOTE_SUBDIR\""
+          # Add server to known_hosts to avoid prompt
+          ssh-keyscan -H 31.97.197.61 >> ~/.ssh/known_hosts
 
-      - name: Deploy via rsync (password)
-        env:
-          SRC_DIR: "_site/"                         
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_PORT: ${{ secrets.SSH_PORT }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-          REMOTE_SUBDIR: ${{ secrets.REMOTE_SUBDIR }}
-        run: |
+          # Deploy rendered site to VPS
+          # Quarto typically renders to _site/ directory
           rsync -avz --delete \
-            --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r \
-            -e "sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no -p $SSH_PORT" \
-            "$SRC_DIR" "$SSH_USER@$SSH_HOST:$REMOTE_SUBDIR"
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            ./_site/ deploy@31.97.197.61:/var/www/tiagojct.eu/html/
+
+          echo "✅ Quarto site deployed successfully to tiagojct.eu!"

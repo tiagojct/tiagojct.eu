@@ -1,0 +1,50 @@
+---
+title: "Medical Informatics Course"
+date: "2024-10-01"
+categories: [teaching, medical informatics, undergraduate]
+description: "Introduction to medical informatics for medical students covering EHR, clinical decision support, and health data standards."
+image: thumbnail.png
+---
+
+## Course Information
+
+**Level:** Undergraduate (5th year)  
+**Duration:** One semester (14 weeks)  
+**Credits:** 6 ECTS  
+**Language:** Portuguese/English
+
+## Course Description
+
+This course introduces medical students to the fundamental concepts of medical informatics, including electronic health records, clinical decision support systems, health data standards, and the ethical implications of health information technology.
+
+## Learning Objectives
+
+By the end of this course, students will be able to:
+
+- Understand the core principles of medical informatics
+- Navigate and use electronic health record systems effectively
+- Recognize the role of clinical decision support in patient care
+- Understand health data standards (HL7, FHIR, SNOMED CT)
+- Evaluate the ethical implications of health IT
+
+## Course Topics
+
+1. Introduction to Medical Informatics
+2. Electronic Health Records
+3. Health Data Standards and Interoperability
+4. Clinical Decision Support Systems
+5. Telemedicine and Digital Health
+6. Health Information Privacy and Security
+7. AI in Healthcare
+8. Evidence-Based Medicine and Informatics
+
+## Assessment
+
+- Participation: 10%
+- Assignments: 30%
+- Midterm Exam: 25%
+- Final Project: 35%
+
+## Resources
+
+Course materials are available through the university's learning management system.

@@ -1,45 +1,123 @@
-/* Main styles - works with Flexoki light/dark theme */
+/* =================================================================
+   Custom Styles for tiagojct.eu
+   
+   Purpose: Extends the main SCSS theme with component-specific styling
+   for notes listings, quotes page, and various UI elements.
+   
+   Color Variables (defined in SCSS themes):
+   - var(--bs-primary): Soft Sage (#7A9B9E) - links and accents
+   - var(--bs-body-bg): Cream/Dark Navy - main background
+   - var(--bs-body-color): Navy/Cream - main text
+   - var(--bs-category-border): Warm Taupe - badge borders
+   - var(--bs-category-text-hover): Theme-specific hover text
+   - var(--bs-hover-accent): Warm Taupe - hover backgrounds
+   
+   ================================================================= */
 
-/* Notes listing */
+/* -----------------------------------------------------------------
+   Notes Listing
+   Styles for the grid-based notes listing page with category tags
+   ----------------------------------------------------------------- */
+
+/* Note title spacing */
 .quarto-listing-container-grid .listing-title {
     margin-bottom: 0.75rem;
 }
 
+/* Category badge container - flex layout with wrapping */
 .quarto-listing-container-grid .listing-categories {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem 0.5rem;
 }
 
+/* -----------------------------------------------------------------
+   Category Tags / Badges
+   Unified styling for all category badges across listings and pages
+   Uses Work Sans for modern, geometric look with warm taupe accents
+   ----------------------------------------------------------------- */
+
+/* Category badges in grid listings (Notes, Projects, Teaching) */
 .quarto-listing-container-grid .listing-category {
     display: inline-flex;
     align-items: center;
-    padding: 0.2rem 0.55rem;
-    border: 1px solid var(--bs-primary);
+    padding: 0.25rem 0.65rem;
+    border: 1.5px solid var(--bs-category-border);
     border-radius: 999px;
     background: var(--bs-body-bg);
-    color: var(--bs-primary);
-    font-size: 0.7rem;
-    letter-spacing: 0.02em;
+    color: var(--bs-body-color);
+    font-family: "Work Sans", system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
     text-transform: lowercase;
+    transition: all 0.2s ease;
 }
 
+/* Category badge hover state - warm taupe background with subtle lift */
 .quarto-listing-container-grid .listing-category:hover {
-    background: var(--bs-primary);
-    color: var(--bs-body-bg);
+    background: var(--bs-hover-accent);
+    color: var(--bs-category-text-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    border-color: var(--bs-hover-accent);
 }
 
-/* Quotes page */
+/* Category badges on individual pages (article headers) */
+.quarto-title .quarto-categories,
+.quarto-title-meta .quarto-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.quarto-title .quarto-category,
+.quarto-title-meta .quarto-category {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.65rem;
+    border: 1.5px solid var(--bs-category-border);
+    border-radius: 999px;
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    font-family: "Work Sans", system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-transform: lowercase;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.quarto-title .quarto-category:hover,
+.quarto-title-meta .quarto-category:hover {
+    background: var(--bs-hover-accent);
+    color: var(--bs-category-text-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    border-color: var(--bs-hover-accent);
+}
+
+/* -----------------------------------------------------------------
+   Quotes Page
+   Custom styling for quote listings using EJS template
+   Removes default card styling and adds custom quote formatting
+   ----------------------------------------------------------------- */
+
+/* Remove default card styling from quote grid items */
 #listing-quotes-listing .quarto-grid-item.card {
     border: none;
     box-shadow: none;
     background: transparent;
 }
 
+/* Single column layout for quotes */
 #listing-quotes-listing .list.grid {
     grid-template-columns: 1fr;
 }
 
+/* Remove left padding from card body */
 #listing-quotes-listing .card-body {
     padding-left: 0;
 }
@@ -49,6 +127,7 @@
     margin-left: 0;
 }
 
+/* Remove pointer events from quote listing links (non-clickable) */
 #listing-quotes-listing .quarto-grid-link {
     pointer-events: none;
     text-decoration: none;
@@ -56,23 +135,84 @@
     cursor: default;
 }
 
-/* Images */
+/* Quote item container with soft sage accent border */
+.quote-item {
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+    border-left: 3px solid var(--bs-primary);
+}
+
+/* Quote text styling - larger, italic */
+.quote-item blockquote {
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+/* Quote attribution styling - smaller, monospace, muted color */
+.quote-attribution {
+    color: var(--bs-secondary);
+    font-size: 0.9rem;
+    font-family: var(--bs-font-monospace);
+    font-weight: 400;
+}
+
+/* -----------------------------------------------------------------
+   Images
+   Rounded corners for all images throughout the site
+   ----------------------------------------------------------------- */
 img {
     border-radius: 12px;
 }
 
-/* Intro text */
+/* -----------------------------------------------------------------
+   Homepage Intro
+   Minimal homepage with inline social/site links
+   ----------------------------------------------------------------- */
 .intro-lede {
     font-size: 1.2rem;
     line-height: 1.4;
+    color: var(--bs-body-color);
 }
 
-/* Footer links - no underline */
+/* Small text paragraph with inline icon links */
+.home-links {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-top: 1rem;
+    color: var(--bs-secondary);
+}
+
+.home-links a {
+    white-space: nowrap;
+}
+
+.home-links .iconify {
+    font-size: 0.95em;
+    vertical-align: -0.1em;
+    margin-right: 0.15em;
+}
+
+/* -----------------------------------------------------------------
+   Footer
+   Custom footer link styling without underlines
+   ----------------------------------------------------------------- */
+
+/* Remove underlines from all footer links */
 .nav-footer a {
     text-decoration: none;
 }
 
-/* Page title spacing */
+/* Footer link hover state - use theme link hover color */
+.nav-footer a:hover {
+    color: var(--bs-link-hover-color);
+}
+
+/* -----------------------------------------------------------------
+   Page Title
+   Spacing adjustment for page title blocks
+   ----------------------------------------------------------------- */
 #title-block-header {
     margin-bottom: 2rem;
 }

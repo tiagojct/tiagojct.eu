@@ -1,117 +1,140 @@
 /*-- scss:defaults --*/
 
-// Flexoki Dark Theme with Green Hues
-// https://stephango.com/flexoki
+// Custom Color Palette - Dark Theme
+// Based on decorative portrait image with warm, professional tones
+// Adjusted for dark mode with inverted relationships and enhanced contrast
+// 
+// Color Usage:
+// - Dark Navy: Deep backgrounds for comfortable reading
+// - Cream: Primary text color (inverted from light theme)
+// - Brighter Sage: Links and interactive elements (enhanced visibility)
+// - Brighter Taupe: Decorative accents (adjusted for contrast)
+// - Elevated Navy: Cards, navbar, footer (depth hierarchy)
 
-// Base colors
-$flexoki-black: #100f0f;
-$flexoki-paper: #fffcf0;
+// Primary palette colors (adjusted for dark mode)
+$navy-charcoal: #1a2332;          // Dark background (darker navy)
+$soft-sage: #8fb0b4;              // Links, accents (brighter for contrast)
+$warm-taupe: #d4b88f;             // Secondary elements (brighter for visibility)
+$cream: #F5F1E8;                  // Primary text color (inverted)
+$warm-grey-brown: #a3927f;        // Secondary text (lighter)
 
-// Dark theme base
-$flexoki-bg: #100f0f;
-$flexoki-bg-2: #1c1b1a;
-$flexoki-ui: #282726;
-$flexoki-ui-2: #343331;
-$flexoki-ui-3: #403e3c;
-$flexoki-tx-3: #575653;
-$flexoki-tx-2: #878580;
-$flexoki-tx: #cecdc3;
+// Derived shades for dark theme variations
+$navy-elevated: #242f40;          // Slightly lighter for elevated surfaces
+$navy-darker: #0f1419;            // Deeper background for contrast
+$sage-light: #a4c5c9;             // Lighter sage for hover states
+$taupe-light: #e1cbaa;            // Lighter taupe for emphasis
+$cream-muted: #d4cfc4;            // Muted cream for secondary text
 
-// Accent colors (dark variants)
-$flexoki-red: #d14d41;
-$flexoki-orange: #da702c;
-$flexoki-yellow: #d0a215;
-$flexoki-green: #879a39;
-$flexoki-cyan: #3aa99f;
-$flexoki-blue: #4385be;
-$flexoki-purple: #8b7ec8;
-$flexoki-magenta: #ce5d97;
+// Supporting accent colors (adjusted brightness for dark mode)
+$accent-red: #d14d41;
+$accent-orange: #da702c;
+$accent-yellow: #d0a215;
+$accent-green: #879a39;
+$accent-blue: #4385be;
+$accent-purple: #8b7ec8;
 
-// Bootstrap color mappings
-$white: $flexoki-tx;
-$gray-100: $flexoki-tx-2;
-$gray-200: $flexoki-tx-3;
-$gray-300: $flexoki-ui-3;
-$gray-400: $flexoki-ui-2;
-$gray-500: $flexoki-ui;
-$gray-600: $flexoki-bg-2;
-$gray-700: $flexoki-bg;
-$gray-800: $flexoki-bg;
-$gray-900: $flexoki-bg;
-$black: $flexoki-black;
+// Bootstrap gray scale mappings (inverted from light theme)
+$white: $cream;
+$gray-100: $cream-muted;
+$gray-200: $warm-grey-brown;
+$gray-300: #7a6f64;
+$gray-400: $navy-elevated;
+$gray-500: #34404f;
+$gray-600: $navy-charcoal;
+$gray-700: #141b24;
+$gray-800: $navy-darker;
+$gray-900: #0a0d11;
+$black: #000000;
 
-$primary: $flexoki-green;
-$secondary: $flexoki-tx-2;
-$success: $flexoki-green;
-$info: $flexoki-cyan;
-$warning: $flexoki-orange;
-$danger: $flexoki-red;
-$light: $flexoki-ui-3;
-$dark: $flexoki-black;
+// Bootstrap semantic color mappings
+$primary: $soft-sage;             // Primary interactive color
+$secondary: $warm-grey-brown;     // Secondary text and elements
+$success: $accent-green;          // Success states
+$info: $soft-sage;                // Informational elements
+$warning: $accent-orange;         // Warning states
+$danger: $accent-red;             // Error states
+$light: $navy-elevated;           // Light backgrounds
+$dark: $navy-darker;              // Dark backgrounds
 
-// Fonts - Geist Sans for content, Geist Mono for navbar/footer/code
-$font-family-sans-serif: "Geist", system-ui, -apple-system, sans-serif;
+// Typography - Literata for body, Work Sans for UI, Geist Mono for code
+$font-family-sans-serif: "Literata", Georgia, serif;
 $font-family-monospace: "Geist Mono", ui-monospace, monospace;
 
-$headings-font-family: "Geist";
-$headings-font-weight: 600;
+$headings-font-family: "Work Sans", system-ui, sans-serif;
+$headings-font-weight: 700;
 
-$navbar-font-family: "Geist Mono";
-$toc-font-family: "Geist";
+$navbar-font-family: "Work Sans";
+$toc-font-family: "Literata";
 $footer-font-family: "Geist Mono";
 
-// Body
-$body-bg: $flexoki-bg;
-$body-color: $flexoki-tx;
+// Body styling
+$body-bg: $navy-charcoal;         // Dark navy background
+$body-color: $cream;              // Cream text
 $font-size-base: 1.02rem;
 
-// Links - cyan with underline, hover to text color
-$link-color: $flexoki-cyan;
+// Links - brighter sage with underline, hover to lighter sage
+$link-color: $soft-sage;
 $link-decoration: underline;
-$link-hover-color: $flexoki-tx;
+$link-hover-color: $sage-light;
 $link-hover-decoration: underline;
 
-// Inline code
-$code-bg: $flexoki-bg-2;
-$code-color: $flexoki-tx;
+// Inline code blocks
+$code-bg: $navy-elevated;
+$code-color: $cream-muted;
 
-// Code copy
-$btn-code-copy-color-active: $flexoki-green;
+// Code copy button
+$btn-code-copy-color-active: $soft-sage;
 
-// TOC
-$toc-color: $flexoki-green;
+// Table of contents
+$toc-color: $soft-sage;
 $toc-font-size: 1em;
 
-// Navbar
-$navbar-bg: $flexoki-bg-2;
-$navbar-fg: $flexoki-tx;
-$navbar-hl: $flexoki-cyan;
+// Navbar colors
+$navbar-bg: $navy-elevated;       // Elevated navy background
+$navbar-fg: $cream;               // Cream text
+$navbar-hl: $soft-sage;           // Sage highlights
 
-// Footer
-$footer-bg: $flexoki-bg-2;
-$footer-fg: $flexoki-tx-2;
+// Footer colors
+$footer-bg: $navy-elevated;       // Elevated navy background
+$footer-fg: $warm-grey-brown;     // Grey-brown text
 
 /*-- scss:rules --*/
 
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Geist+Mono:wght@100..900&display=swap');
+
+// Define CSS custom properties for use in styles.css (dark mode variants)
+:root {
+  --bs-category-border: #{$warm-taupe};
+  --bs-category-text-hover: #{$navy-charcoal};
+  --bs-hover-accent: #{$warm-taupe};
+}
 
 body {
   -webkit-font-smoothing: antialiased;
 }
 
-// Headings - tighter letter spacing
+// Headings - tighter letter spacing for modern look
 h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
-// Navbar links: uppercase and bold
-.navbar .navbar-nav .nav-link {
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+// Navbar styling
+.navbar {
+  font-family: $navbar-font-family;
+  
+  // Navbar links: uppercase and bold
+  .navbar-nav .nav-link {
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
 }
 
-// Home page adjustments
+.navbar-nav.navbar-nav-scroll.ms-auto {
+  flex-direction: row;
+}
+
+// Home page layout adjustments
 .home {
   .quarto-title-banner {
     margin-bottom: 0;
@@ -122,7 +145,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-// Code blocks
+// Code block styling
 pre.text, pre.sourceCode, .cell-output pre {
   font-size: 0.775em;
   font-family: $font-family-monospace;
@@ -132,16 +155,7 @@ code {
   font-family: $font-family-monospace;
 }
 
-// Navbar
-.navbar {
-  font-family: $navbar-font-family;
-}
-
-.navbar-nav.navbar-nav-scroll.ms-auto {
-  flex-direction: row;
-}
-
-// TOC
+// Table of contents styling
 #TOC {
   font-family: $toc-font-family;
   padding-bottom: 0.1em;
@@ -161,7 +175,7 @@ code {
   padding-bottom: 0.25rem;
 }
 
-// Footer
+// Footer styling
 .nav-footer {
   align-items: center;
   flex-wrap: wrap;
@@ -171,7 +185,7 @@ code {
   font-size: 0.9rem;
 
   a {
-    color: $flexoki-cyan;
+    color: $soft-sage;
   }
 
   .nav-footer-left,
@@ -181,6 +195,7 @@ code {
     width: 100%;
   }
 
+  // Responsive footer layout
   @media (min-width: 768px) {
     .nav-footer-left {
       text-align: left;
