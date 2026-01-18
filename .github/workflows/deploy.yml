@@ -1,8 +1,8 @@
 name: Deploy Quarto Site to VPS
 on:
   push:
-    branches: [main] # Change to 'master' if that's your default branch
-  workflow_dispatch: # Allows manual trigger from GitHub UI
+    branches: [main]
+  workflow_dispatch:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -12,26 +12,18 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          version: release # Or specify a version like '1.4.550'
       - name: Render Quarto site
         run: quarto render
-      - name: Deploy to VPS
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+      - name: Setup SSH
         run: |
-          # Setup SSH
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-
-          # Add server to known_hosts to avoid prompt
           ssh-keyscan -H 31.97.197.61 >> ~/.ssh/known_hosts
-
-          # Deploy rendered site to VPS
-          # Quarto typically renders to _site/ directory
+      - name: Deploy to VPS
+        run: |
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
             ./_site/ deploy@31.97.197.61:/var/www/tiagojct.eu/html/
 
-          echo "✅ Quarto site deployed successfully to tiagojct.eu!"
+          echo "✅ Quarto site deployed successfully!"
