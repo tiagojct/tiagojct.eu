@@ -1,0 +1,55 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for branch operations
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render Quarto site
+        run: quarto render
+
+      - name: Deploy to hostinger branch
+        run: |
+          # Configure git
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
+          # Create or checkout hostinger branch
+          git checkout -b hostinger || git checkout hostinger
+          
+          # Remove all files except .git directory
+          git rm -rf . || true
+          git clean -fd
+          
+          # Copy built files from _site to root
+          cp -r _site/* .
+          
+          # Remove .gitignore to allow built files
+          rm -f .gitignore
+          
+          # Add all built files
+          git add .
+          
+          # Commit changes
+          git commit -m "Deploy built site - $(date '+%Y-%m-%d %H:%M:%S')" || echo "No changes to commit"
+          
+          # Switch back to main branch
+          git checkout main
+
+      - name: Push hostinger branch
+        run: |
+          git push origin hostinger --force
+          echo "✅ Hostinger branch updated successfully!"
